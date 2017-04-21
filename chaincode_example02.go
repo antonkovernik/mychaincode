@@ -64,9 +64,9 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
 	fmt.Println("ex02 invoke")
-	username, err := stub.ReadCertAttribute("username");
- 	if err != nil { return "", errors.New("Couldn't get attribute 'username'. Error: " + err.Error()) }
-	fmt.Println("ex02 invoke %v", username)
+	// username, err := stub.ReadCertAttribute("username");
+ // 	if err != nil { return "", errors.New("Couldn't get attribute 'username'. Error: " + err.Error()) }
+	// fmt.Println("ex02 invoke %v", username)
 	return shim.Success(nil)
 }
 
