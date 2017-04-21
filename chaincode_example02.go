@@ -26,7 +26,6 @@ import (
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/accesscontrol/impl"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
 
@@ -65,13 +64,9 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
 	fmt.Println("ex02 invoke")
-
-	isAuthorized, err := impl.NewAccessControlShim(stub).VerifyAttribute("role", []byte("issuer"))
-
-	if !isAuthorized {
-		fmt.Println("ex02 invoke not authorized %v", err)
-	}
-
+	username, err := stub.ReadCertAttribute("username");
+ 	if err != nil { return "", errors.New("Couldn't get attribute 'username'. Error: " + err.Error()) }
+	fmt.Println("ex02 invoke %v", username)
 	return shim.Success(nil)
 }
 
