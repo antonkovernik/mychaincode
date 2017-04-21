@@ -16,7 +16,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	fmt.Println("ex02 Init")
 	//_, args := stub.GetFunctionAndParameters()
 
-	return shim.Success(nil)
+	return nil, nil
 }
 
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
@@ -33,7 +33,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.query(stub, args)
 	}
 
-	return shim.Error("Invalid invoke function name. Expecting \"invoke\" \"delete\" \"query\"")
+		return nil, errors.New("Function of the name "+ function +" doesn't exist.")
 }
 
 // Transaction makes payment of X units from A to B
@@ -50,14 +50,14 @@ func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, args []string
 func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("ex02 delete")
 
-	return shim.Success(nil)
+	return nil, nil
 }
 
 // query callback representing the query of a chaincode
 func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("ex02 query")
 
-	return shim.Success(nil)
+	return nil, nil
 }
 
 //=================================================================================================================================
