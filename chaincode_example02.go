@@ -42,8 +42,16 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	}
 }
 
+func (t *SimpleChaincode) get_username(stub shim.ChaincodeStubInterface) (string, error) {
+
+  username, err := stub.ReadCertAttribute("username");
+	if err != nil { return "", errors.New("Couldn't get attribute 'username'. Error: " + err.Error()) }
+	return string(username), nil
+}
+
 func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	fmt.Println("Hello World!")
+	username, error := t.get_username(stub)
+	fmt.Println("Hello " + username)
 	return []byte("Hello, world!"), nil
 }
 
