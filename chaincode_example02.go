@@ -8,68 +8,54 @@ import (
 
 var logger = shim.NewLogger("CLDChaincode")
 
-
 type  SimpleChaincode struct {
 }
 
+
+//==============================================================================================================================
+//	Init Function - Called when the user deploys the chaincode
+//==============================================================================================================================
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	fmt.Println("ex02 Init")
-	//_, args := stub.GetFunctionAndParameters()
 
 	return nil, nil
 }
 
+func (t *SimpleChaincode) get_username(stub shim.ChaincodeStubInterface) (string, error) {
+
+    username, err := stub.ReadCertAttribute("username");
+	if err != nil { return "", errors.New("Couldn't get attribute 'username'. Error: " + err.Error()) }
+	return string(username), nil
+}
+
+
+//==============================================================================================================================
+//	 Router Functions
+//==============================================================================================================================
+//	Invoke - Called on chaincode invoke. Takes a function name passed and calls that function. Converts some
+//		  initial arguments passed to other things for use in the called function e.g. name -> ecert
+//==============================================================================================================================
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	fmt.Println("ex02 Invoke")
-	function, args := stub.GetFunctionAndParameters()
-	if function == "invoke" {
-		// Make payment of X units from A to B
-		return t.invoke(stub, args)
-	} else if function == "delete" {
-		// Deletes an entity from its state
-		return t.delete(stub, args)
-	} else if function == "query" {
-		// the old "Query" is now implemtned in invoke
-		return t.query(stub, args)
+	if function == "ping" {
+      return t.ping(stub)
+  } else { 																				// If the function is not a create then there must be a car so we need to retrieve the car.
+			return nil, errors.New("Function of the name "+ function +" doesn't exist.")
 	}
-
-		return nil, errors.New("Function of the name "+ function +" doesn't exist.")
 }
 
-// Transaction makes payment of X units from A to B
-func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-
-	fmt.Println("ex02 invoke")
-	username, err := stub.ReadCertAttribute("username");
- 	if err != nil { return "", errors.New("Couldn't get attribute 'username'. Error: " + err.Error()) }
-	fmt.Println("ex02 invoke %v", username)
-	return shim.Success(nil)
+func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	return []byte("Hello, world!"), nil
 }
 
-// Deletes an entity from state
-func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	fmt.Println("ex02 delete")
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 
-	return nil, nil
+  logger.Debug("function: ", function)
+  logger.Debug("caller: ", caller)
+  logger.Debug("affiliation: ", caller_affiliation)
+
+	return nil, errors.New("Received unknown function invocation " + function)
 }
 
-// query callback representing the query of a chaincode
-func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	fmt.Println("ex02 query")
 
-	return nil, nil
-}
-
-//=================================================================================================================================
-//	 Ping Function
-//=================================================================================================================================
-//	 Pings the peer to keep the connection alive
-//=================================================================================================================================
-
-
-//=================================================================================================================================
-//	 Main - main - Starts up the chaincode
-//=================================================================================================================================
 func main() {
 
 	err := shim.Start(new(SimpleChaincode))
