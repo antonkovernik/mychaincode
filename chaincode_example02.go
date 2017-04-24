@@ -44,6 +44,9 @@ func (t *SimpleChaincode) get_username(stub shim.ChaincodeStubInterface) (string
 func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
 	username, error := t.get_username(stub)
 	fmt.Println("Hello " + username)
+	if (error) {
+		fmt.Println("Error: " + error)
+	}
 	return []byte("Hello, world!"), error
 }
 
