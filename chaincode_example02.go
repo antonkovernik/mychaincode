@@ -43,6 +43,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 }
 
 func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	fmt.Println("Hello World!")
 	return []byte("Hello, world!"), nil
 }
 
