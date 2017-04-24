@@ -37,7 +37,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 func (t *SimpleChaincode) get_username(stub shim.ChaincodeStubInterface) (string, error) {
 
   username, err := stub.ReadCertAttribute("role");
-	if err != nil { return "Error", errors.New("Couldn't get attribute 'role'. Error: " + err.Error()) }
+	if err != nil {
+		fmt.Println("Couldn't get attribute 'role'. Error: " + err.Error())
+
+		return "Error", errors.New("Couldn't get attribute 'role'. Error: " + err.Error())
+	}
 	return string(username), nil
 }
 
