@@ -44,7 +44,7 @@ func (t *SimpleChaincode) get_username(stub shim.ChaincodeStubInterface) (string
 func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
 	username, error := t.get_username(stub)
 	fmt.Println("Hello " + username)
-	return []byte("Hello, world!"), nil
+	return []byte("Hello, world!"), error
 }
 
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
