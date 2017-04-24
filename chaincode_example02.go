@@ -49,8 +49,6 @@ func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error)
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 
   logger.Debug("function: ", function)
-  logger.Debug("caller: ", caller)
-  logger.Debug("affiliation: ", caller_affiliation)
 
 	return nil, errors.New("Received unknown function invocation " + function)
 }
